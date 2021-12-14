@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BlueBtn extends StatelessWidget {
   const BlueBtn({Key? key, required this.onTap, required this.label}) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String label;
 
   @override

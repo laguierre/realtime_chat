@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:realtime_chat/helpers/mostrar_alerta.dart';
+import 'package:realtime_chat/services/auth_service.dart';
 import 'package:realtime_chat/widgets/blue_btn.dart';
 import 'package:realtime_chat/widgets/custom_input.dart';
 import 'package:realtime_chat/widgets/labels.dart';
@@ -21,7 +24,11 @@ class LoginPage extends StatelessWidget {
               children: [
                 Logo(title: 'Messenger'),
                 _Form(),
-                Labels(route: 'register', title: 'No tienes cuenta?', subtitles: 'Crea una ahora!',),
+                Labels(
+                  route: 'register',
+                  title: 'No tienes cuenta?',
+                  subtitles: 'Crea una ahora!',
+                ),
                 const Text('Términos y condiciones de uso.',
                     style: TextStyle(fontWeight: FontWeight.w200)),
               ],
@@ -32,8 +39,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class _Form extends StatefulWidget {
   const _Form({Key? key}) : super(key: key);
@@ -48,6 +53,7 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -64,10 +70,25 @@ class _FormState extends State<_Form> {
             textEditingController: passCtrl,
             isPassword: true,
           ),
-          BlueBtn(label: 'Ingrese', onTap: () {  },),
+          BlueBtn(
+            label: 'Ingrese',
+            onTap: authService.autenticando
+                ? null
+                : () async {
+              FocusScope.of(context).unfocus();
+                    final loginOk = await authService.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+                    print(loginOk);
+                    if(loginOk){
+                      Navigator.pushReplacementNamed(context, 'user');
+                    }
+                    else{
+                      mostrarAlerta(context, 'Login incorrecto', 'Revise sus credenciales');
+                    }
+                  }
+          ),
         ],
       ),
     );
   }
 }
-

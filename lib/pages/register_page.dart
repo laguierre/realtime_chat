@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:realtime_chat/helpers/mostrar_alerta.dart';
+import 'package:realtime_chat/services/auth_service.dart';
 import 'package:realtime_chat/widgets/blue_btn.dart';
 import 'package:realtime_chat/widgets/custom_input.dart';
 import 'package:realtime_chat/widgets/labels.dart';
@@ -21,7 +24,11 @@ class RegisterPage extends StatelessWidget {
               children: const [
                 Logo(title: 'Registro'),
                 _Form(),
-                Labels(route: 'login', title: 'Ya tienes cuenta?', subtitles: 'Ingresa',),
+                Labels(
+                  route: 'login',
+                  title: 'Ya tienes cuenta?',
+                  subtitles: 'Ingresa',
+                ),
                 Text('Términos y condiciones de uso.',
                     style: TextStyle(fontWeight: FontWeight.w200)),
               ],
@@ -32,8 +39,6 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class _Form extends StatefulWidget {
   const _Form({Key? key}) : super(key: key);
@@ -49,6 +54,7 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -60,12 +66,11 @@ class _FormState extends State<_Form> {
             textEditingController: nameCtrl,
             keyboardType: TextInputType.text,
           ),
-
           CustomInput(
             icon: Icons.lock_outline,
             placeHolder: 'Contraseña',
-            textEditingController: passCtrl,
-            isPassword: true,
+            textEditingController: emailCtrl,
+            isPassword: false,
           ),
           CustomInput(
             icon: Icons.lock_outline,
@@ -73,11 +78,25 @@ class _FormState extends State<_Form> {
             textEditingController: passCtrl,
             isPassword: true,
           ),
-          BlueBtn(label: 'Ingrese', onTap: () {  },),
+          BlueBtn(
+            label: 'Crear cuenta',
+            onTap: authService.autenticando
+                ? null
+                : () async {
+                    final registroOk = await authService.register(
+                        nameCtrl.text.trim(),
+                        emailCtrl.text.trim(),
+                        passCtrl.text.trim());
+                    if (registroOk) {
+                      Navigator.pushReplacementNamed(context, 'user');
+                    } else {
+                      mostrarAlerta(context, 'Registro incorrecto',
+                          registroOk.toString());
+                    }
+                  },
+          ),
         ],
       ),
     );
   }
 }
-
-
