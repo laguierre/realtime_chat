@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:realtime_chat/helpers/mostrar_alerta.dart';
 import 'package:realtime_chat/services/auth_service.dart';
+import 'package:realtime_chat/services/socket_service.dart';
 import 'package:realtime_chat/widgets/blue_btn.dart';
 import 'package:realtime_chat/widgets/custom_input.dart';
 import 'package:realtime_chat/widgets/labels.dart';
@@ -54,6 +55,8 @@ class _FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -80,6 +83,7 @@ class _FormState extends State<_Form> {
                         emailCtrl.text.trim(), passCtrl.text.trim());
                     print(loginOk);
                     if(loginOk){
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'user');
                     }
                     else{

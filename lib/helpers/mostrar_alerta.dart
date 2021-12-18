@@ -12,7 +12,7 @@ mostrarAlerta(BuildContext context, String title, String subtitle) {
               content: Text(subtitle),
               actions: [
                 MaterialButton(
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                   elevation: 5,
                   textColor: Colors.blue,
                   onPressed: () => Navigator.pop(context),

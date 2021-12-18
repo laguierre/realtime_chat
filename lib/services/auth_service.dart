@@ -10,8 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthService with ChangeNotifier {
   late Usuario usuario;
   bool _autenticando = false;
-  final _storage = FlutterSecureStorage();
-
+  final _storage = const FlutterSecureStorage();
   bool get autenticando => _autenticando;
 
   set autenticando(bool valor) {
@@ -22,6 +21,7 @@ class AuthService with ChangeNotifier {
   static Future<String?> getToken() async {
     final _storage = FlutterSecureStorage();
     final token = await _storage.read(key: 'token');
+    //print('Token: $token');
     return token;
   }
 
@@ -50,20 +50,19 @@ class AuthService with ChangeNotifier {
   }
 
   Future register(String nombre, String email, String password) async {
-    this.autenticando = true;
+    autenticando = true;
 
     final data = {'nombre': nombre, 'email': email, 'password': password};
 
     final resp = await http.post(Uri.parse('${Environment.apiUrl}/login/new'),
         body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
 
-    this.autenticando = false;
+    autenticando = false;
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      this.usuario = loginResponse.usuario;
-      await this._guardarToken(loginResponse.token);
-
+      usuario = loginResponse.usuario;
+      await _guardarToken(loginResponse.token);
       return true;
     } else {
       final respBody = jsonDecode(resp.body);
@@ -82,9 +81,8 @@ class AuthService with ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      this.usuario = loginResponse.usuario;
-      await this._guardarToken(loginResponse.token);
-
+      usuario = loginResponse.usuario;
+      await _guardarToken(loginResponse.token);
       return true;
     } else {
       logout();
