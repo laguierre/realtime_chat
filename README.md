@@ -14,8 +14,8 @@ Realtime Chat App, using a backend en Node. Using 'http://localhost:3000/api' y 
 
 ## Screenshots
 <p align="center">
-<img src="https://github.com/laguierre/cuenta_dni_clone/blob/master/screenshots/Screenshot_1644953358.png" height="700">
-<img src="https://github.com/laguierre/cuenta_dni_clone/blob/master/screenshots/Screenshot_1644953381.png" height="700">
+<img src="https://github.com/laguierre/realtime_chat/blob/master/screenshots/Screenshot_1645485263.png" height="700">
+<img src="https://github.com/laguierre/realtime_chat/blob/master/screenshots/Screenshot_1645485316.png" height="700">
 </p>
 
 ```
