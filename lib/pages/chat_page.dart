@@ -41,7 +41,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         ChatMessage(text: m.mensaje,
             uid: m.de,
             animationController: AnimationController(
-                vsync: this, duration: Duration(milliseconds: 0))
+                vsync: this, duration: const Duration(milliseconds: 0))
               ..forward()));
     setState(() {
       _messages.insertAll(0, history);
@@ -53,7 +53,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         text: payload['mensaje'],
         uid: payload['de'],
         animationController: AnimationController(
-            vsync: this, duration: Duration(milliseconds: 300)));
+            vsync: this, duration: const Duration(milliseconds: 300)));
     setState(() {
       _messages.insert(0, message);
     });
@@ -73,12 +73,12 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               maxRadius: 14,
               backgroundColor: Colors.blue[100],
               child: Text(usuarioPara.nombre.substring(0, 2),
-                  style: TextStyle(fontSize: 12)),
+                  style: const TextStyle(fontSize: 12)),
             ),
-            SizedBox(height: 3),
+            const SizedBox(height: 3),
             Text(
               usuarioPara.nombre,
-              style: TextStyle(color: Colors.black87, fontSize: 12),
+              style: const TextStyle(color: Colors.black87, fontSize: 12),
             )
           ],
         ),
@@ -92,9 +92,9 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 child: ListView.builder(
                     itemCount: _messages.length,
                     reverse: true,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (_, i) => _messages[i])),
-            Divider(height: 1),
+            const Divider(height: 1),
             Container(
               color: Colors.white,
               child: _inputChat(),
@@ -108,7 +108,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   Widget _inputChat() {
     return SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8.0),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
               Flexible(
@@ -126,26 +126,26 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                         }
                       });
                     },
-                    decoration: InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                         hintText: 'Enviar mensaje'),
                     focusNode: _focusNode,
                   )),
               Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Platform.isIOS
                       ? CupertinoButton(
-                      child: Text('Enviar'),
+                      child: const Text('Enviar'),
                       onPressed: _isWriting
                           ? () => _handleSubmit(_textController.text.trim())
                           : null)
                       : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: IconTheme(
                       data: IconThemeData(color: Colors.blue[400]),
                       child: IconButton(
                           highlightColor: Colors.transparent,
                           splashColor: Colors.transparent,
-                          icon: Icon(Icons.send),
+                          icon: const Icon(Icons.send),
                           onPressed: _isWriting
                               ? () =>
                               _handleSubmit(_textController.text.trim())
@@ -166,7 +166,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       text: text,
       uid: authService.usuario.uid,
       animationController: AnimationController(
-          vsync: this, duration: Duration(milliseconds: 200)),
+          vsync: this, duration: const Duration(milliseconds: 200)),
     );
     _messages.insert(0, newMessage);
     newMessage.animationController.forward();

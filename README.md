@@ -1,16 +1,51 @@
-# realtime_chat
+# Realtime Chat App
 
-A new Flutter project.
+Realtime Chat App, using a backend en Node. Using 'http://localhost:3000/api' y sockets
 
-## Getting Started
+## General Info
 
-This project is a starting point for a Flutter application.
+**Packages used:**
 
-A few resources to get you started if this is your first Flutter project:
+- pull_to_refresh: ^2.0.0 [link](https://pub.dev/packages/pull_to_refresh)
+- provider: ^6.0.1 [link](https://pub.dev/packages/provider)
+- http: ^0.13.4 [link](https://pub.dev/packages/http)
+- flutter_secure_storage: ^5.0.2 [link](https://pub.dev/packages/flutter_secure_storage)
+- socket_io_client: ^1.0.2 [link](https://pub.dev/packages/socket_io_client)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Screenshots
+<p align="center">
+<img src="https://github.com/laguierre/cuenta_dni_clone/blob/master/screenshots/Screenshot_1644953358.png" height="700">
+<img src="https://github.com/laguierre/cuenta_dni_clone/blob/master/screenshots/Screenshot_1644953381.png" height="700">
+</p>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+final Map<String, Widget Function(BuildContext)> appRoutes = {
+  'user': (_) => UsersPage(),
+  'chat': (_) => ChatPage(),
+  'login': (_) => LoginPage(),
+  'register': (_) => RegisterPage(),
+  'loading': (_) => LoadingPage(),
+};
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => SocketService()),
+        ChangeNotifierProvider(create: (_) => ChatService())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'RealTime Chat',
+        initialRoute: 'login',
+        routes: appRoutes,
+      ),
+    );
+  }
+}
+```

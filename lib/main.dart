@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => SocketService()),
         ChangeNotifierProvider(create: (_) => ChatService())
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
